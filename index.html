@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCraft</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+        
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .language-switcher {
+            margin-left: 15px;
+        }
+        
+        .language-option {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .language-option:hover, .language-option.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 120px 0 80px;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .service-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .pricing-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li i {
+            color: var(--primary);
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-outline-primary {
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .contact-section {
+            background-color: #f8f9fa;
+        }
+        
+        .contact-card {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        .badge-popular {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .lang-content {
+            display: none;
+        }
+        
+        .lang-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">WebCraft</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services" data-key="services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pricing" data-key="pricing">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact" data-key="contact">Contact</a>
+                    </li>
+                    <li class="nav-item language-switcher">
+                        <div class="d-flex">
+                            <span class="language-option active" data-lang="en">EN</span>
+                            <span class="language-option" data-lang="ru">RU</span>
+                            <span class="language-option" data-lang="uz">UZ</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <!-- English Content -->
+                    <div class="lang-content active" data-lang="en">
+                        <h1 class="display-4 fw-bold mb-4">Professional Websites That Drive Results</h1>
+                        <p class="lead mb-4">I create beautiful, responsive websites that help your business stand out online. From simple landing pages to full multi-page websites.</p>
+                        <a href="#pricing" class="btn btn-light btn-lg me-3" data-key="viewPricing">View Pricing</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg" data-key="getStarted">Get Started</a>
+                    </div>
+                    
+                    <!-- Russian Content -->
+                    <div class="lang-content" data-lang="ru">
+                        <h1 class="display-4 fw-bold mb-4">Профессиональные Веб-Сайты, Которые Приносят Результаты</h1>
+                        <p class="lead mb-4">Я создаю красивые, адаптивные веб-сайты, которые помогают вашему бизнесу выделиться в интернете. От простых лендингов до полноценных многостраничных сайтов.</p>
+                        <a href="#pricing" class="btn btn-light btn-lg me-3" data-key="viewPricing">Посмотреть Цены</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg" data-key="getStarted">Начать</a>
+                    </div>
+                    
+                    <!-- Uzbek Content -->
+                    <div class="lang-content" data-lang="uz">
+                        <h1 class="display-4 fw-bold mb-4">Natijalar Keltiradigan Professional Veb-saytlar</h1>
+                        <p class="lead mb-4">Men sizning biznesingizni onlayn dunyoda ajralib turishiga yordam beradigan chiroyli, moslashuvchan veb-saytlarni yarataman. Oddiysh landinqlardan to'liq ko'p sahifali veb-saytlargacha.</p>
+                        <a href="#pricing" class="btn btn-light btn-lg me-3" data-key="viewPricing">Narxlarni Ko'rish</a>
+                        <a href="#contact" class="btn btn-outline-light btn-lg" data-key="getStarted">Boshlash</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80" alt="Web Development" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <!-- English Content -->
+            <div class="lang-content active" data-lang="en">
+                <h2 class="text-center section-title">My Services</h2>
+            </div>
+            
+            <!-- Russian Content -->
+            <div class="lang-content" data-lang="ru">
+                <h2 class="text-center section-title">Мои Услуги</h2>
+            </div>
+            
+            <!-- Uzbek Content -->
+            <div class="lang-content" data-lang="uz">
+                <h2 class="text-center section-title">Mening Xizmatlarim</h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card service-card p-4 text-center">
+                        <div class="service-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <h4>Single Page Website</h4>
+                            <p>Perfect for small businesses, portfolios, or landing pages. A responsive one-page website that tells your story effectively.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Fully Responsive Design</li>
+                                <li><i class="fas fa-check"></i> Modern UI/UX</li>
+                                <li><i class="fas fa-check"></i> Contact Information</li>
+                                <li><i class="fas fa-check"></i> Basic SEO Optimization</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <h4>Одностраничный Сайт</h4>
+                            <p>Идеально подходит для малого бизнеса, портфолио или лендингов. Адаптивный одностраничный сайт, который эффективно рассказывает вашу историю.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Полностью адаптивный дизайн</li>
+                                <li><i class="fas fa-check"></i> Современный UI/UX</li>
+                                <li><i class="fas fa-check"></i> Контактная информация</li>
+                                <li><i class="fas fa-check"></i> Базовая SEO оптимизация</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <h4>Bir Sahifali Veb-sayt</h4>
+                            <p>Kichik biznes, portfel yoki landinqlar uchun mukammal. Sizning hikoyangizni samarali etkazadigan moslashuvchan bir sahifali veb-sayt.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> To'liq moslashuvchan dizayn</li>
+                                <li><i class="fas fa-check"></i> Zamonaviy UI/UX</li>
+                                <li><i class="fas fa-check"></i> Aloqa ma'lumotlari</li>
+                                <li><i class="fas fa-check"></i> Asosiy SEO optimizatsiyasi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card service-card p-4 text-center">
+                        <div class="service-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <h4>Multi-Page Website</h4>
+                            <p>Ideal for businesses needing multiple sections like About, Services, Portfolio, and Contact pages.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Up to 5 Pages</li>
+                                <li><i class="fas fa-check"></i> Responsive Design</li>
+                                <li><i class="fas fa-check"></i> Contact Information</li>
+                                <li><i class="fas fa-check"></i> SEO Optimization</li>
+                                <li><i class="fas fa-check"></i> Social Media Integration</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <h4>Многостраничный Сайт</h4>
+                            <p>Идеально для бизнеса, которому нужно несколько разделов, таких как О нас, Услуги, Портфолио и Контакты.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> До 5 страниц</li>
+                                <li><i class="fas fa-check"></i> Адаптивный дизайн</li>
+                                <li><i class="fas fa-check"></i> Контактная информация</li>
+                                <li><i class="fas fa-check"></i> SEO оптимизация</li>
+                                <li><i class="fas fa-check"></i> Интеграция с соцсетями</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <h4>Ko'p Sahifali Veb-sayt</h4>
+                            <p>Biz haqida, Xizmatlar, Portfel va Aloqa kabi bir nechta bo'limlari bo'lgan bizneslar uchun ideal.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> 5 sahifagacha</li>
+                                <li><i class="fas fa-check"></i> Moslashuvchan dizayn</li>
+                                <li><i class="fas fa-check"></i> Aloqa ma'lumotlari</li>
+                                <li><i class="fas fa-check"></i> SEO optimizatsiyasi</li>
+                                <li><i class="fas fa-check"></i> Ijtimoiy tarmoqlar integratsiyasi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card service-card p-4 text-center">
+                        <div class="service-icon">
+                            <i class="fas fa-pencil-ruler"></i>
+                        </div>
+                        
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <h4>Custom Web Page</h4>
+                            <p>Need just one additional page for your existing website? I can create custom pages tailored to your needs.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Single Custom Page</li>
+                                <li><i class="fas fa-check"></i> Responsive Design</li>
+                                <li><i class="fas fa-check"></i> Match Existing Design</li>
+                                <li><i class="fas fa-check"></i> Fast Delivery</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <h4>Пользовательская Страница</h4>
+                            <p>Нужна всего одна дополнительная страница для вашего существующего сайта? Я могу создать пользовательские страницы, адаптированные под ваши нужды.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Одна пользовательская страница</li>
+                                <li><i class="fas fa-check"></i> Адаптивный дизайн</li>
+                                <li><i class="fas fa-check"></i> Соответствие существующему дизайну</li>
+                                <li><i class="fas fa-check"></i> Быстрая доставка</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <h4>Maxsus Veb-sahifa</h4>
+                            <p>Mavjud veb-saytingiz uchun faqat bitta qo'shimcha sahifa kerakmi? Men sizning ehtiyojlaringizga moslashtirilgan maxsus sahifalarni yarataman.</p>
+                            <ul class="feature-list text-start mt-3">
+                                <li><i class="fas fa-check"></i> Bitta maxsus sahifa</li>
+                                <li><i class="fas fa-check"></i> Moslashuvchan dizayn</li>
+                                <li><i class="fas fa-check"></i> Mavjud dizaynga mos kelishi</li>
+                                <li><i class="fas fa-check"></i> Tez yetkazib berish</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-5 bg-light">
+        <div class="container">
+            <!-- English Content -->
+            <div class="lang-content active" data-lang="en">
+                <h2 class="text-center section-title">Simple, Transparent Pricing</h2>
+                <p class="text-center mb-5">No hidden fees. Everything you need to get your business online.</p>
+            </div>
+            
+            <!-- Russian Content -->
+            <div class="lang-content" data-lang="ru">
+                <h2 class="text-center section-title">Простая, Прозрачная Ценовая Политика</h2>
+                <p class="text-center mb-5">Никаких скрытых платежей. Все, что нужно для вывода вашего бизнеса в онлайн.</p>
+            </div>
+            
+            <!-- Uzbek Content -->
+            <div class="lang-content" data-lang="uz">
+                <h2 class="text-center section-title">Oddiy, Shaffof Narxlar</h2>
+                <p class="text-center mb-5">Yashirin to'lovlar yo'q. Biznesingizni onlayn ko'rinishga keltirish uchun kerak bo'lgan hamma narsa.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card">
+                        <div class="pricing-header text-center">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <h4>Single Page</h4>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <h4>Одностраничный</h4>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <h4>Bir Sahifali</h4>
+                            </div>
+                            
+                            <div class="price">$200</div>
+                            
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <p>One-time payment</p>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <p>Единоразовый платеж</p>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <p>Bir martalik to'lov</p>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Responsive Design</li>
+                                    <li><i class="fas fa-check"></i> Contact Information</li>
+                                    <li><i class="fas fa-check"></i> Basic SEO</li>
+                                    <li><i class="fas fa-check"></i> 1-2 Week Delivery</li>
+                                    <li><i class="fas fa-check"></i> 1 Round of Revisions</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Select Plan</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Адаптивный дизайн</li>
+                                    <li><i class="fas fa-check"></i> Контактная информация</li>
+                                    <li><i class="fas fa-check"></i> Базовая SEO</li>
+                                    <li><i class="fas fa-check"></i> Доставка за 1-2 недели</li>
+                                    <li><i class="fas fa-check"></i> 1 раунд правок</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Выбрать План</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Moslashuvchan dizayn</li>
+                                    <li><i class="fas fa-check"></i> Aloqa ma'lumotlari</li>
+                                    <li><i class="fas fa-check"></i> Asosiy SEO</li>
+                                    <li><i class="fas fa-check"></i> 1-2 haftada yetkazish</li>
+                                    <li><i class="fas fa-check"></i> 1 marta tahrirlash</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Rejani Tanlash</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card position-relative">
+                        <span class="badge-popular">
+                            <!-- English Content -->
+                            <span class="lang-content active" data-lang="en">MOST POPULAR</span>
+                            
+                            <!-- Russian Content -->
+                            <span class="lang-content" data-lang="ru">ПОПУЛЯРНЫЙ</span>
+                            
+                            <!-- Uzbek Content -->
+                            <span class="lang-content" data-lang="uz">MASHHUR</span>
+                        </span>
+                        <div class="pricing-header text-center">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <h4>5-Page Website</h4>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <h4>5-Страничный Сайт</h4>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <h4>5 Sahifali Veb-sayt</h4>
+                            </div>
+                            
+                            <div class="price">$500</div>
+                            
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <p>One-time payment</p>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <p>Единоразовый платеж</p>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <p>Bir martalik to'lov</p>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Up to 5 Pages</li>
+                                    <li><i class="fas fa-check"></i> Responsive Design</li>
+                                    <li><i class="fas fa-check"></i> Contact Information</li>
+                                    <li><i class="fas fa-check"></i> SEO Optimization</li>
+                                    <li><i class="fas fa-check"></i> Social Media Integration</li>
+                                    <li><i class="fas fa-check"></i> 2-3 Week Delivery</li>
+                                    <li><i class="fas fa-check"></i> 2 Rounds of Revisions</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-primary w-100">Select Plan</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> До 5 страниц</li>
+                                    <li><i class="fas fa-check"></i> Адаптивный дизайн</li>
+                                    <li><i class="fas fa-check"></i> Контактная информация</li>
+                                    <li><i class="fas fa-check"></i> SEO оптимизация</li>
+                                    <li><i class="fas fa-check"></i> Интеграция с соцсетями</li>
+                                    <li><i class="fas fa-check"></i> Доставка за 2-3 недели</li>
+                                    <li><i class="fas fa-check"></i> 2 раунда правок</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-primary w-100">Выбрать План</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> 5 sahifagacha</li>
+                                    <li><i class="fas fa-check"></i> Moslashuvchan dizayn</li>
+                                    <li><i class="fas fa-check"></i> Aloqa ma'lumotlari</li>
+                                    <li><i class="fas fa-check"></i> SEO optimizatsiyasi</li>
+                                    <li><i class="fas fa-check"></i> Ijtimoiy tarmoqlar integratsiyasi</li>
+                                    <li><i class="fas fa-check"></i> 2-3 haftada yetkazish</li>
+                                    <li><i class="fas fa-check"></i> 2 marta tahrirlash</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-primary w-100">Rejani Tanlash</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="card pricing-card">
+                        <div class="pricing-header text-center">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <h4>Custom Page</h4>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <h4>Пользовательская Страница</h4>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <h4>Maxsus Sahifa</h4>
+                            </div>
+                            
+                            <div class="price">$100</div>
+                            
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <p>One-time payment</p>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <p>Единоразовый платеж</p>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <p>Bir martalik to'lov</p>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <!-- English Content -->
+                            <div class="lang-content active" data-lang="en">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Single Custom Page</li>
+                                    <li><i class="fas fa-check"></i> Responsive Design</li>
+                                    <li><i class="fas fa-check"></i> Match Existing Design</li>
+                                    <li><i class="fas fa-check"></i> 1 Week Delivery</li>
+                                    <li><i class="fas fa-check"></i> 1 Round of Revisions</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Select Plan</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Russian Content -->
+                            <div class="lang-content" data-lang="ru">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Одна пользовательская страница</li>
+                                    <li><i class="fas fa-check"></i> Адаптивный дизайн</li>
+                                    <li><i class="fas fa-check"></i> Соответствие существующему дизайну</li>
+                                    <li><i class="fas fa-check"></i> Доставка за 1 неделю</li>
+                                    <li><i class="fas fa-check"></i> 1 раунд правок</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Выбрать План</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Uzbek Content -->
+                            <div class="lang-content" data-lang="uz">
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Bitta maxsus sahifa</li>
+                                    <li><i class="fas fa-check"></i> Moslashuvchan dizayn</li>
+                                    <li><i class="fas fa-check"></i> Mavjud dizaynga mos kelishi</li>
+                                    <li><i class="fas fa-check"></i> 1 haftada yetkazish</li>
+                                    <li><i class="fas fa-check"></i> 1 marta tahrirlash</li>
+                                </ul>
+                                <div class="text-center mt-4">
+                                    <a href="#contact" class="btn btn-outline-primary w-100">Rejani Tanlash</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-12">
+                    <!-- English Content -->
+                    <div class="lang-content active" data-lang="en">
+                        <div class="alert alert-info text-center">
+                            <h5>About My Pricing</h5>
+                            <p class="mb-0">As a junior web developer, these prices are competitive and reflect my current skill level. They're great for attracting first clients while providing excellent value. Once you gain more experience, you can gradually increase your rates.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Russian Content -->
+                    <div class="lang-content" data-lang="ru">
+                        <div class="alert alert-info text-center">
+                            <h5>О Моих Ценах</h5>
+                            <p class="mb-0">Как начинающий веб-разработчик, эти цены конкурентоспособны и отражают мой текущий уровень навыков. Они отлично подходят для привлечения первых клиентов, обеспечивая при этом отличную ценность. По мере накопления опыта вы можете постепенно повышать свои ставки.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Uzbek Content -->
+                    <div class="lang-content" data-lang="uz">
+                        <div class="alert alert-info text-center">
+                            <h5>Mening Narxlarim Haqida</h5>
+                            <p class="mb-0">Yosh veb-dasturchi sifatida, bu narzlar raqobatbardosh va mening hozirgi ko'nikmalarim darajasini aks ettiradi. Ular ajoyib qimmatni ta'minlash bilan birga birinchi mijozlarni jalb qilish uchun juda yaxshi. Ko'proq tajriba orttirganingizdan so'ng, asta-sekin tariflaringizni oshirishingiz mumkin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 contact-section">
+        <div class="container">
+            <!-- English Content -->
+            <div class="lang-content active" data-lang="en">
+                <h2 class="text-center section-title">Get In Touch</h2>
+                <p class="text-center mb-5">Ready to start your project? Contact me through any of these methods.</p>
+            </div>
+            
+            <!-- Russian Content -->
+            <div class="lang-content" data-lang="ru">
+                <h2 class="text-center section-title">Свяжитесь Со Мной</h2>
+                <p class="text-center mb-5">Готовы начать свой проект? Свяжитесь со мной любым из этих способов.</p>
+            </div>
+            
+            <!-- Uzbek Content -->
+            <div class="lang-content" data-lang="uz">
+                <h2 class="text-center section-title">Bog'laning</h2>
+                <p class="text-center mb-5">Loyihangizni boshlashga tayyormisiz? Ushbu usullardan birortasi orqali men bilan bog'laning.</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-3 col-md-6">
+                    <div class="card contact-card p-4 text-center">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h4>Phone</h4>
+                        <p>+998 97 495 71 10</p>
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <a href="tel:+998974957110" class="btn btn-outline-primary">Call Now</a>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <a href="tel:+998974957110" class="btn btn-outline-primary">Позвонить</a>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <a href="tel:+998974957110" class="btn btn-outline-primary">Qo'ng'iroq Qilish</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="card contact-card p-4 text-center">
+                        <div class="contact-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <h4>Telegram</h4>
+                        <p>@jucasbucas</p>
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <a href="https://t.me/jucasbucas" target="_blank" class="btn btn-outline-primary">Message Me</a>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <a href="https://t.me/jucasbucas" target="_blank" class="btn btn-outline-primary">Написать</a>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <a href="https://t.me/jucasbucas" target="_blank" class="btn btn-outline-primary">Xabar Yuborish</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="card contact-card p-4 text-center">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <h4>WhatsApp</h4>
+                        <p>+998 97 495 71 10</p>
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <a href="https://wa.me/998974957110" target="_blank" class="btn btn-outline-primary">Chat on WhatsApp</a>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <a href="https://wa.me/998974957110" target="_blank" class="btn btn-outline-primary">Чат в WhatsApp</a>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <a href="https://wa.me/998974957110" target="_blank" class="btn btn-outline-primary">WhatsAppda Chat</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <div class="card contact-card p-4 text-center">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h4>Email</h4>
+                        <p>a.khallyev2011@gmail.com</p>
+                        <!-- English Content -->
+                        <div class="lang-content active" data-lang="en">
+                            <a href="mailto:a.khallyev2011@gmail.com" class="btn btn-outline-primary">Send Email</a>
+                        </div>
+                        
+                        <!-- Russian Content -->
+                        <div class="lang-content" data-lang="ru">
+                            <a href="mailto:a.khallyev2011@gmail.com" class="btn btn-outline-primary">Отправить Email</a>
+                        </div>
+                        
+                        <!-- Uzbek Content -->
+                        <div class="lang-content" data-lang="uz">
+                            <a href="mailto:a.khallyev2011@gmail.com" class="btn btn-outline-primary">Email Yuborish</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <!-- English Content -->
+                    <div class="lang-content active" data-lang="en">
+                        <p class="mb-0">&copy; 2025 WebCraft All rights reserved.</p>
+                    </div>
+                    
+                    <!-- Russian Content -->
+                    <div class="lang-content" data-lang="ru">
+                        <p class="mb-0">&copy; 2025 WebCraft Все права защищены.</p>
+                    </div>
+                    
+                    <!-- Uzbek Content -->
+                    <div class="lang-content" data-lang="uz">
+                        <p class="mb-0">&copy; 2025 WebCraft Barcha huquqlar himoyalangan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Language switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageOptions = document.querySelectorAll('.language-option');
+            
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const selectedLang = this.getAttribute('data-lang');
+                    
+                    // Update active language option
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show content for selected language
+                    document.querySelectorAll('.lang-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    document.querySelectorAll(`.lang-content[data-lang="${selectedLang}"]`).forEach(content => {
+                        content.classList.add('active');
+                    });
+                });
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow');
+                } else {
+                    navbar.classList.remove('shadow');
+                }
+            });
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
